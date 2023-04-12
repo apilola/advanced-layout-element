@@ -1,5 +1,5 @@
 # advanced-layout-element
-![caption](./Documentation/Element_Showcase.mp4)
+![caption](./Documentation/Element_Showcase.gif)
 <Details>
 <Summary><b>Other Showcases<b></Summary>
 
