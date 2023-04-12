@@ -8,79 +8,56 @@ namespace AP.UI.LayoutProperties
 {
     public static class Extensions
     {
-        public static void SetProperty(this ILayoutElement element, LayoutPropertyType type, float value)
+        public static void SetProperty(this ILayoutElement element, LayoutProperty property, float value)
         {
             if (element is AdvancedLayoutElement custom)
             {
-                switch (type)
-                {
-                    case LayoutPropertyType.MinWidth:
-                        custom.minWidth = value;
-                        break;
-                    case LayoutPropertyType.MinHeight:
-                        custom.minHeight = value;
-                        break;
-                    case LayoutPropertyType.PreferredWidth:
-                        custom.preferredWidth = value;
-                        break;
-                    case LayoutPropertyType.PreferredHeight:
-                        custom.preferredHeight = value;
-                        break;
-                    case LayoutPropertyType.FlexibleWidth:
-                        custom.flexibleWidth = value;
-                        break;
-                    case LayoutPropertyType.FlexibleHeight:
-                        custom.flexibleHeight = value;
-                        break;
-                    default:
-                        Debug.LogError($"{nameof(Extensions)}::{nameof(SetProperty) + "+Set"}: {type} is not implemented");
-                        break;
-                }
+                custom[property].RawValue = value;
             }
             else if (element is LayoutElement layoutElement)
             {
-                switch (type)
+                switch (property)
                 {
-                    case LayoutPropertyType.MinWidth:
+                    case LayoutProperty.MinWidth:
                         layoutElement.minWidth = value;
                         break;
-                    case LayoutPropertyType.MinHeight:
+                    case LayoutProperty.MinHeight:
                         layoutElement.minHeight = value;
                         break;
-                    case LayoutPropertyType.PreferredWidth:
+                    case LayoutProperty.PreferredWidth:
                         layoutElement.preferredWidth = value;
                         break;
-                    case LayoutPropertyType.PreferredHeight:
+                    case LayoutProperty.PreferredHeight:
                         layoutElement.preferredHeight = value;
                         break;
-                    case LayoutPropertyType.FlexibleWidth:
+                    case LayoutProperty.FlexibleWidth:
                         layoutElement.flexibleWidth = value;
                         break;
-                    case LayoutPropertyType.FlexibleHeight:
+                    case LayoutProperty.FlexibleHeight:
                         layoutElement.flexibleHeight = value;
                         break;
                     default:
-                        Debug.LogError($"{nameof(Extensions)}::{nameof(SetProperty) + "+Set"}: {type} is not implemented");
+                        Debug.LogError($"{nameof(Extensions)}::{nameof(SetProperty) + "+Set"}: {property} is not implemented");
                         break;
                 }
             }
         }
 
-        public static float GetProperty(this ILayoutElement element, LayoutPropertyType type)
+        public static float GetProperty(this ILayoutElement element, LayoutProperty type)
         {
             switch (type)
             {
-                case LayoutPropertyType.MinWidth:
+                case LayoutProperty.MinWidth:
                     return element.minWidth;
-                case LayoutPropertyType.MinHeight:
+                case LayoutProperty.MinHeight:
                     return element.minHeight;
-                case LayoutPropertyType.PreferredWidth:
+                case LayoutProperty.PreferredWidth:
                     return element.preferredWidth;
-                case LayoutPropertyType.PreferredHeight:
+                case LayoutProperty.PreferredHeight:
                     return element.preferredHeight;
-                case LayoutPropertyType.FlexibleWidth:
+                case LayoutProperty.FlexibleWidth:
                     return element.flexibleWidth;
-                case LayoutPropertyType.FlexibleHeight:
+                case LayoutProperty.FlexibleHeight:
                     return element.flexibleHeight;
                 default:
                     Debug.LogError($"{nameof(Extensions)}::{nameof(SetProperty) + "+Get"}: {type} is not implemented");

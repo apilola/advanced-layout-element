@@ -101,7 +101,7 @@ namespace AP.Editor.UI
         {
             label = EditorGUI.BeginProperty(position, label, property);
             var element = property.serializedObject.targetObject as AdvancedLayoutElement;
-            var defaultType = (LayoutPropertyType)property.FindPropertyRelative("m_DefaultType").enumValueIndex;
+            var defaultType = (LayoutProperty)property.FindPropertyRelative("m_DefaultType").enumValueIndex;
 
             var enabledProp = property.FindPropertyRelative("m_Enabled");
             var readOnlyProp = property.FindPropertyRelative("m_ReadOnly");
@@ -110,7 +110,7 @@ namespace AP.Editor.UI
             var weightProp = property.FindPropertyRelative("m_Weight");
             var overrideProp = property.FindPropertyRelative("m_Override");
 
-            var currentType = (LayoutPropertyType)typeProp.enumValueIndex;
+            var currentType = (LayoutProperty)typeProp.enumValueIndex;
 
             Rect marchingRect = position;
             marchingRect.height = Style.HeaderHeight;

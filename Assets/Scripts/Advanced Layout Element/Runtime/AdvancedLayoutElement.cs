@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,23 +8,23 @@ namespace AP.UI
     [RequireComponent(typeof(RectTransform))]
     public partial class AdvancedLayoutElement : UIBehaviour, ILayoutElement, ILayoutIgnorer
     {
-        public Property this[LayoutPropertyType type]
+        public Property this[LayoutProperty property]
         {
             get
             {
-                switch (type)
+                switch (property)
                 {
-                    case LayoutPropertyType.MinWidth:
+                    case LayoutProperty.MinWidth:
                         return m_MinWidthProp;
-                    case LayoutPropertyType.MinHeight:
+                    case LayoutProperty.MinHeight:
                         return m_MinHeightProp;
-                    case LayoutPropertyType.PreferredWidth:
+                    case LayoutProperty.PreferredWidth:
                         return m_PreferredWidthProp;
-                    case LayoutPropertyType.PreferredHeight:
+                    case LayoutProperty.PreferredHeight:
                         return m_PreferredHeightProp;
-                    case LayoutPropertyType.FlexibleWidth:
+                    case LayoutProperty.FlexibleWidth:
                         return m_FlexibleWidthProp;
-                    case LayoutPropertyType.FlexibleHeight:
+                    case LayoutProperty.FlexibleHeight:
                         return m_FlexibleHeightProp;
                     default:
                         throw new System.NotImplementedException();
@@ -41,17 +39,17 @@ namespace AP.UI
         [SerializeField] bool m_LayoutIndependent = false;
 
         [Tooltip("Controls the minimum width for the ILayoutElement interface")]
-        [SerializeField] Property m_MinWidthProp = new(LayoutPropertyType.MinWidth);
+        [SerializeField] Property m_MinWidthProp = new(LayoutProperty.MinWidth);
         [Tooltip("Controls the minimum height for the ILayoutElement interface")]
-        [SerializeField] Property m_MinHeightProp = new(LayoutPropertyType.MinHeight);
+        [SerializeField] Property m_MinHeightProp = new(LayoutProperty.MinHeight);
         [Tooltip("Controls the preffered width for the ILayoutElement interface")]
-        [SerializeField] Property m_PreferredWidthProp = new(LayoutPropertyType.PreferredWidth);
+        [SerializeField] Property m_PreferredWidthProp = new(LayoutProperty.PreferredWidth);
         [Tooltip("Controls the preffered height for the ILayoutElement interface")]
-        [SerializeField] Property m_PreferredHeightProp = new(LayoutPropertyType.PreferredHeight);
+        [SerializeField] Property m_PreferredHeightProp = new(LayoutProperty.PreferredHeight);
         [Tooltip("Controls the flexible width for the ILayoutElement interface")]
-        [SerializeField] Property m_FlexibleWidthProp = new(LayoutPropertyType.FlexibleWidth);
+        [SerializeField] Property m_FlexibleWidthProp = new(LayoutProperty.FlexibleWidth);
         [Tooltip("Controls the flexibile for the ILayoutElement interface")]
-        [SerializeField] Property m_FlexibleHeightProp = new(LayoutPropertyType.FlexibleHeight);
+        [SerializeField] Property m_FlexibleHeightProp = new(LayoutProperty.FlexibleHeight);
         [Tooltip("Override advanced layout element's default priority")]
         [SerializeField] bool m_OverridePriority = false;
         [Tooltip("Layout Priority")]
@@ -80,12 +78,12 @@ namespace AP.UI
             {
                 return;
             }
-            m_MinWidthProp.Validate(this, LayoutPropertyType.MinWidth);
-            m_MinHeightProp.Validate(this, LayoutPropertyType.MinHeight);
-            m_PreferredWidthProp.Validate(this, LayoutPropertyType.PreferredWidth);
-            m_PreferredHeightProp.Validate(this, LayoutPropertyType.PreferredHeight);
-            m_FlexibleWidthProp.Validate(this, LayoutPropertyType.FlexibleWidth);
-            m_FlexibleHeightProp.Validate(this, LayoutPropertyType.FlexibleHeight);
+            m_MinWidthProp.Validate(this, LayoutProperty.MinWidth);
+            m_MinHeightProp.Validate(this, LayoutProperty.MinHeight);
+            m_PreferredWidthProp.Validate(this, LayoutProperty.PreferredWidth);
+            m_PreferredHeightProp.Validate(this, LayoutProperty.PreferredHeight);
+            m_FlexibleWidthProp.Validate(this, LayoutProperty.FlexibleWidth);
+            m_FlexibleHeightProp.Validate(this, LayoutProperty.FlexibleHeight);
             if(transform.hasChanged)
             {
                 m_HasChanged = true;
@@ -95,55 +93,17 @@ namespace AP.UI
 
         protected override void Awake()
         {
-            m_MinWidthProp.Validate(this, LayoutPropertyType.MinWidth);
-            m_MinHeightProp.Validate(this, LayoutPropertyType.MinHeight);
-            m_PreferredWidthProp.Validate(this, LayoutPropertyType.PreferredWidth);
-            m_PreferredHeightProp.Validate(this, LayoutPropertyType.PreferredHeight);
-            m_FlexibleWidthProp.Validate(this, LayoutPropertyType.FlexibleWidth);
-            m_FlexibleHeightProp.Validate(this, LayoutPropertyType.FlexibleHeight);
+            m_MinWidthProp.Validate(this, LayoutProperty.MinWidth);
+            m_MinHeightProp.Validate(this, LayoutProperty.MinHeight);
+            m_PreferredWidthProp.Validate(this, LayoutProperty.PreferredWidth);
+            m_PreferredHeightProp.Validate(this, LayoutProperty.PreferredHeight);
+            m_FlexibleWidthProp.Validate(this, LayoutProperty.FlexibleWidth);
+            m_FlexibleHeightProp.Validate(this, LayoutProperty.FlexibleHeight);
 
             if (transform.hasChanged)
             {
                 m_HasChanged = true;
             }
-        }
-
-
-
-        public float minWidth
-        {
-            get => m_MinWidthProp.RawValue;
-            set => m_MinWidthProp.RawValue = value;
-        }
-
-        public float minHeight
-        {
-            get => m_MinHeightProp.RawValue;
-            set => m_MinHeightProp.RawValue = value;
-        }
-
-        public float preferredWidth
-        {
-            get => m_PreferredWidthProp.RawValue;
-            set => m_PreferredWidthProp.RawValue = value;
-        }
-
-        public float preferredHeight
-        {
-            get => m_PreferredHeightProp.RawValue;
-            set => m_PreferredHeightProp.RawValue = value;
-        }
-
-        public float flexibleWidth
-        {
-            get => m_FlexibleWidthProp.RawValue;
-            set => m_FlexibleWidthProp.RawValue = value;
-        }
-
-        public float flexibleHeight
-        {
-            get => m_FlexibleHeightProp.RawValue;
-            set => m_FlexibleHeightProp.RawValue = value;
         }
 
         public int layoutPriority { 
@@ -241,7 +201,7 @@ namespace AP.UI
 
 
 
-    public enum LayoutPropertyType
+    public enum LayoutProperty
     {
         MinWidth,
         MinHeight,

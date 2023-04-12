@@ -8,7 +8,7 @@ namespace AP.UI
         [System.Serializable]
         public class Property
         {
-            public Property(LayoutPropertyType type)
+            public Property(LayoutProperty type)
             {
                 m_DefaultType = m_Type = type;
             }
@@ -20,19 +20,19 @@ namespace AP.UI
             [SerializeField] UnityEngine.Object m_Override;
             [SerializeField, Range(0,1)] float m_Weight = 1;
             //[SerializeField, SerializeReference] ILayoutPropertyOverride m_Override;
-            [SerializeField] LayoutPropertyType m_Type;
-            [SerializeField, HideInInspector] LayoutPropertyType m_DefaultType;
+            [SerializeField] LayoutProperty m_Type;
+            [SerializeField, HideInInspector] LayoutProperty m_DefaultType;
             [SerializeField] bool m_Enabled = false;
             [SerializeField] bool m_ReadOnly;
             [SerializeField] float m_Value = 0;
 
-            public LayoutPropertyType Type
+            public LayoutProperty Type
             {
                 get
                 {
                     return m_Type;
                 }
-                set
+                internal set
                 {
                     m_Type = value;
                 }
@@ -96,11 +96,11 @@ namespace AP.UI
                 }
             }
 
-            public void Validate(AdvancedLayoutElement element, LayoutPropertyType type)
+            public void Validate(AdvancedLayoutElement element, LayoutProperty property)
             {
                 m_Element = element;
                 m_Transform = element.transform as RectTransform;
-                m_DefaultType = type;
+                m_DefaultType = property;
 
                 if (m_Override)
                 {
@@ -154,15 +154,15 @@ namespace AP.UI
                 {
                     switch (m_Type)
                     {
-                        case LayoutPropertyType.MinWidth:
-                        case LayoutPropertyType.PreferredWidth:
+                        case LayoutProperty.MinWidth:
+                        case LayoutProperty.PreferredWidth:
                             return oTransform.rect.width;
-                        case LayoutPropertyType.PreferredHeight:
-                        case LayoutPropertyType.MinHeight:
+                        case LayoutProperty.PreferredHeight:
+                        case LayoutProperty.MinHeight:
                             return oTransform.rect.height;
-                        case LayoutPropertyType.FlexibleWidth:
+                        case LayoutProperty.FlexibleWidth:
                             return oTransform.rect.width - Transform.rect.width;
-                        case LayoutPropertyType.FlexibleHeight:
+                        case LayoutProperty.FlexibleHeight:
                             return oTransform.rect.height - Transform.rect.height;
                         default:
                             throw new System.NotImplementedException();
