@@ -1,5 +1,5 @@
 # advanced-layout-element
-![caption](https://i.redd.it/1nbkmf9kteja1.gif)
+![caption](./Documentation/Element_Showcase.mp4)
 <Details>
 <Summary><b>Other Showcases<b></Summary>
 
