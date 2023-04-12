@@ -17,13 +17,28 @@ namespace AP.UI
             [HideInInspector]
             AdvancedLayoutElement m_Element;
             RectTransform m_Transform;
+            [Tooltip("If an override is set the value of this property \n" +
+                    "will be sourced from the override. \n" +
+                    "Common override types include:\n" +
+                    "- Text Mesh Pro Elements \n" +
+                    "- Rect Transforms \n" +
+                    "- Images \n" +
+                    "- Layout Groups" +
+                    "- Other Layout Elements")]
             [SerializeField] UnityEngine.Object m_Override;
+            [Tooltip("When a value is retrieved from a property, it is multiplied by it's weight")]
             [SerializeField, Range(0,1)] float m_Weight = 1;
             //[SerializeField, SerializeReference] ILayoutPropertyOverride m_Override;
+            [Tooltip("Where the element should source its value from. If there is no override, the element will source the value from itself")]
             [SerializeField] LayoutProperty m_Type;
             [SerializeField, HideInInspector] LayoutProperty m_DefaultType;
+
             [SerializeField] bool m_Enabled = false;
+
+            [Tooltip("Whether this value can be set durring runtime")]
             [SerializeField] bool m_ReadOnly;
+
+            [Tooltip("The current value that this property is set to")]
             [SerializeField] float m_Value = 0;
 
             public LayoutProperty Type

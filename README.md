@@ -1,74 +1,97 @@
 # advanced-layout-element
 ![caption](./Documentation/Element_Showcase.gif)
-<Details>
-<Summary><b>Other Showcases<b></Summary>
 
-![caption](./Documentation/Images/FaceShowcase.jpg)
-</Details>
-
+Warning: Documentation is in development. 
 ### Overview
+The Advanced Layout Element is a simple component that aims to give you more control when setting up a UI layout. The main feature of the component is that it allows you to source a Rect Transfrorm's desired height or width from another component in your scene. While the Advanced Layout Element is usually used in combination with a Layout Group, the Advanced Layout Element can be made to act indepedently of any Layout Group. 
 
-The project contents contains the code nessesary to calculate tension data on inside Unity Shaders 3D. It also contains some other tools generic tools required to create the "Skin" material that you see in the showcase above. The following implementation will work with Rigged Geometry as well as BlendShapes/MorphTargets.
+### Override Types
+Since the main feature of this component is to use values from other objects. Here is how the override functions with different types.
+
+- RectTransform
+    - In the case of preffered or minumum properties the value will be retrieved from the transforms height or width respectively
+    - In the case of flexible properties, it will retrieve the difference between the override's size and the element's size.
+
+- Layout Element
+    - Components that extends the ILayoutElement interface will use the same interface to retrieve desired values.
+
+- TextMeshProUGUI
+    - The text mesh pro text component extends ILayoutElement interface however the only the prefferred width or height seems to have relevant values
+
+- Images or other Graphic Components
+    - Graphic Components all extend ILayoutElement interface however the only the prefferred width or height seems to have relevant values
 
 ### Requirements
-- Atleast Unity 2021.3.18f1
-- This Noodle Demo in the showcase above requires the use of the Universal Render Pipeline although the package itself should work in any pipeline
+- This project was made using 2022.2.8f1 but the Advanced Layout Element should work in older versions. Let me know if you have issues
 
 ### Installation
-Edit your package manifest to include this package.
-Your projects package manifest should be located at YOUR_PROJECT_NAME/Packages/manifest.json
+Currently you can install this component by copying everything in the following directy directly into your own project.
 
+    Assets/Scripts/AdvancedLayoutElement
+
+Since this project is really just one component, I did not make the code into a package. I can make the code into a package upon popular demand.
+
+### Known Issues
+
+- Property values cannot be animated with the Unity Animator, it is recommended that you use a tweening library when animating UI. If there is demand I will consider adding this functionality.
+
+
+### Accordian Menu Example
+You can find an Accordian menu example located at:
+    Assets/Scenes/AccordianDemo.Unity
+
+In the Accordian demo each gameobject that utilizes the Advanced Layout Element is marked with a "*" in its name.
+
+### Editor Example
+![caption](./Documentation/Images/Inspector_Annotated.jpg)
+
+### Script Example
+
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using AP.UI;
+
+    public class SimpleToggle : MonoBehaviour
     {
-        "dependencies": {
-            "com.ap.tension-tools": "https://github.com/apilola/tension-tools.git?path=/Packages/com.ap.tension-tools"
+        [SerializeField] bool m_IsEnabled;
+        [SerializeField] RectTransform m_ArrowTransform;
+        [SerializeField] AdvancedLayoutElement m_AnswerElement;
+
+
+        //Called by a the OnClick event of a Button component
+        public void Toggle()
+        {
+            m_IsEnabled = !m_IsEnabled;
+        }
+        
+
+        void Start()
+        {
+            //Setting up the GUI elements to match the default enabled state.
+            m_AnswerElement[LayoutProperty.PreferredHeight].Weight = m_IsEnabled ? 1 : 0;
+            var angles = m_ArrowTransform.eulerAngles;
+            angles.z = m_IsEnabled ? 0 : 90;
+            m_ArrowTransform.eulerAngles = angles;
+        }
+        
+        // Probably wouldn't modulate these values in update in a real app.
+        // Would probably use a tweening library
+        // but in a demo this is fine
+        void Update()
+        {
+            var heightProp = m_AnswerElement[LayoutProperty.PreferredHeight];
+            heightProp.Weight = Mathf.MoveTowards(heightProp.Weight, m_IsEnabled ? 1 : 0, .1f);
+
+            var angles = m_ArrowTransform.eulerAngles;
+            angles.z = Mathf.MoveTowardsAngle(angles.z, m_IsEnabled ? 0 : 90, 5f);
+            m_ArrowTransform.eulerAngles = angles;
         }
     }
 
 
-
-
-### Known Issues
-
-- Unity may show warnings for undisposed Compute/Graphics Buffers.
-    - Leak detection mode may be toggled through: Toolbar->TensionTools->LeakDetectionMode
-    - On my machine, leak detection does not seem to be outputting any stack traces, feedback would be appreciated...
-- Inspector preview support only functions in using the URP scriptable renderpipline. 
-    - If anyone knows how to render a skinned mesh renderer with a replacement shader in a preview context that would be helpful.
-
-
-### Contents
-
-The following items are contained in the package located at: ./Packages/com.ap.tension-tools
-
-Components:
-- TensionData.cs
-
-ShaderNodes:
-- SampleTension
-    - Samples the tension experienced by the mesh provided the renderer has a TensionData component.
-- Subsurface Scattering
-    - Calculates subsurface scattering 
-- Simple Subsurface
-    - Simplifies the process to calculate subsurface scattering but provides less inputs
-- Simple Subsurface GI
-    - Same as simple subsurface but applies global illumination
-- Unpack Normal
-    - Unpacks a normal map and applys a weight to its intensity.
-- AO-Smoothness-Metalic
-    - this node samples a texture and samples their weights.
-
-Shaders
-- Tension Visualizer
-    - Used in the Inspector Preview to visualize tension activations in the editor
-- Skin
-    - A simple skin shader used in the preview's shader.
-
-
 <Header><b>Quick Start</b></Header>
 
-1. Add a 3D model skinned mesh renderer to the scene
-1. Attach a "Tension Data" component to the skinned mesh renderer. 
-1. Create a material that uses the shader "ShaderGraph/TensionVisualizer"
-1. Set the skinned mesh renderer to use the newly created material.
+    Coming Soon
 
 
