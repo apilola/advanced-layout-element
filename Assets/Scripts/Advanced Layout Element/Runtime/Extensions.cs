@@ -8,6 +8,12 @@ namespace AP.UI.LayoutProperties
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Set the value of a property with the given type.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
         public static void SetProperty(this ILayoutElement element, LayoutProperty property, float value)
         {
             if (element is AdvancedLayoutElement custom)
@@ -43,6 +49,12 @@ namespace AP.UI.LayoutProperties
             }
         }
 
+        /// <summary>
+        /// Get the value of a property with the given type.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static float GetProperty(this ILayoutElement element, LayoutProperty type)
         {
             switch (type)

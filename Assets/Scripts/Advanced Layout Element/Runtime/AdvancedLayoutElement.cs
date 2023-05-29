@@ -8,6 +8,12 @@ namespace AP.UI
     [RequireComponent(typeof(RectTransform))]
     public partial class AdvancedLayoutElement : UIBehaviour, ILayoutElement, ILayoutIgnorer
     {
+        /// <summary>
+        /// Gets the property with the specified type
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public Property this[LayoutProperty property]
         {
             get
@@ -93,6 +99,7 @@ namespace AP.UI
 
         protected override void Awake()
         {
+            // Set properties with references to this component and the property type
             m_MinWidthProp.Validate(this, LayoutProperty.MinWidth);
             m_MinHeightProp.Validate(this, LayoutProperty.MinHeight);
             m_PreferredWidthProp.Validate(this, LayoutProperty.PreferredWidth);
@@ -133,6 +140,7 @@ namespace AP.UI
 
         int ILayoutElement.layoutPriority => (m_OverridePriority) ? m_LayoutPriority : int.MaxValue;
 
+        //Called by Unity's layout rebuilder when the horizontal layout needs to be recalculated
         public void CalculateLayoutInputHorizontal()
         {
             m_MinWidthProp.CalculateLayout();
@@ -140,6 +148,7 @@ namespace AP.UI
             m_FlexibleWidthProp.CalculateLayout();
         }
 
+        //Called by Unity's layout rebuilder when the vertical layout needs to be recalculated
         public void CalculateLayoutInputVertical()
         {
             m_MinHeightProp.CalculateLayout();
@@ -152,6 +161,7 @@ namespace AP.UI
             CleanDirty();
         }
 
+        //If the layout has changed, mark the parent for a layout rebuild or rebuild the layout if this component is layout independent
         private void CleanDirty()
         {
             if (m_HasChanged)
@@ -179,6 +189,7 @@ namespace AP.UI
             }
         }
 
+        //Called by Unity's animation system when the animation properties have been changed
         protected override void OnDidApplyAnimationProperties()
         {
             m_HasChanged = true;

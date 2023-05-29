@@ -96,7 +96,6 @@ namespace AP.Editor.UI
             }
         }
 
-        GUIContent m_ModeContent = new GUIContent(EditorGUIUtility.FindTexture("_Popup@2x"));
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             label = EditorGUI.BeginProperty(position, label, property);

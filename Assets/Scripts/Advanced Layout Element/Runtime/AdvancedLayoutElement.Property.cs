@@ -5,6 +5,9 @@ namespace AP.UI
 {
     public partial class AdvancedLayoutElement
     {
+        /// <summary>
+        /// A property is a value that can be used to control the size of the layout element
+        /// </summary>
         [System.Serializable]
         public class Property
         {
@@ -71,6 +74,9 @@ namespace AP.UI
 
             public float Value => (m_Enabled) ? m_Value * m_Weight : -1;
 
+            /// <summary>
+            /// the raw value refers to the value of the property without any weight applied
+            /// </summary>
             public float RawValue
             {
                 get
@@ -92,6 +98,9 @@ namespace AP.UI
                 }
             }
 
+            /// <summary>
+            /// the weight of the property. This is used to scale the value of the property
+            /// </summary>
             public float Weight { 
                 get => m_Weight;
                 set 
@@ -111,6 +120,11 @@ namespace AP.UI
                 }
             }
 
+            /// <summary>
+            /// Validates the property and sets the value of the property
+            /// </summary>
+            /// <param name="element"></param>
+            /// <param name="property"></param>
             public void Validate(AdvancedLayoutElement element, LayoutProperty property)
             {
                 m_Element = element;
@@ -152,6 +166,9 @@ namespace AP.UI
                 CalculateLayout();
             }
 
+            /// <summary>
+            /// Called by Unities LayoutRebuilder to calculate the layout of the element
+            /// </summary>
             public void CalculateLayout()
             {
                 var newVal = GetUnscaledValue();
@@ -162,7 +179,11 @@ namespace AP.UI
                 }
             }
             
-
+            /// <summary>
+            /// Internal method to get the value of the property
+            /// </summary>
+            /// <returns></returns>
+            /// <exception cref="System.NotImplementedException"></exception>
             float GetUnscaledValue()
             {
                 if (m_Override is RectTransform oTransform)
