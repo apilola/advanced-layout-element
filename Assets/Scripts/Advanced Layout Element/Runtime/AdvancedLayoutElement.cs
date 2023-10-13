@@ -171,15 +171,17 @@ namespace AP.UI
                     if(m_MinHeightProp.Enabled)
                     {
                         m_MinHeightProp.CalculateLayout();
+                        m_Transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, m_MinHeightProp.Value);
                     }
 
                     if(m_MinWidthProp.Enabled)
                     {
                         m_MinWidthProp.CalculateLayout();
+                        m_Transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, m_MinWidthProp.Value);
                     }
 
-                    transform.sizeDelta = new Vector2(m_MinWidthProp.Value, m_MinHeightProp.Value);
-                    LayoutRebuilder.MarkLayoutForRebuild(transform.parent as RectTransform);
+                    if(m_MinHeightProp.Enabled ||  m_MinWidthProp.Enabled)
+                        LayoutRebuilder.MarkLayoutForRebuild(transform.parent as RectTransform);
                 }
                 else
                 {

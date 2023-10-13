@@ -64,14 +64,8 @@ namespace AP.Editor.UI
     [CustomPropertyDrawer(typeof(AdvancedLayoutElement.Property))]
     public class LayoutPropertyDrawer : PropertyDrawer
     {
-        [InitializeOnLoad]
         public static class Style
         {
-            static Style()
-            {
-
-            }
-
             public static readonly float EnabledWidth = 20;
             public static readonly float FoldOutWidth = 20;
             public static readonly GUIContent ModeContent = new GUIContent(EditorGUIUtility.FindTexture("_Popup@2x"));
@@ -136,7 +130,13 @@ namespace AP.Editor.UI
             EditorGUI.BeginDisabledGroup(false);
             if (element[defaultType].Override == null && enabledProp.boolValue)
             {
-                element[defaultType].RawValue = EditorGUI.FloatField(fieldRect, element[defaultType].RawValue);
+                EditorGUI.BeginChangeCheck();
+                var val = EditorGUI.DelayedFloatField(fieldRect, element[defaultType].RawValue);
+                if(EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(element, "float fieldChanged");
+                    element[defaultType].RawValue = val;
+                }
             }
             else
             {
