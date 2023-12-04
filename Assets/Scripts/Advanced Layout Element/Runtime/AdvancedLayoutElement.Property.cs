@@ -44,6 +44,13 @@ namespace AP.UI
             [Tooltip("The current value that this property is set to")]
             [SerializeField] float m_Value = 0;
 
+            [SerializeField] private float _correction;
+
+            // Make it internal, when u'll configure this runtime assembly
+            // to be visible to editor's assembly.
+            // see msdn: Friend assemblies.
+            public static string CorrectionFieldName => nameof(_correction);
+
             public LayoutProperty Type
             {
                 get
@@ -72,7 +79,8 @@ namespace AP.UI
                 }
             }
 
-            public float Value => (m_Enabled) ? m_Value * m_Weight : -1;
+            //public float Value => (m_Enabled) ? m_Value * m_Weight : -1;
+            public float Value => (m_Enabled) ? (m_Value + _correction) * m_Weight : -1;
 
             /// <summary>
             /// the raw value refers to the value of the property without any weight applied
