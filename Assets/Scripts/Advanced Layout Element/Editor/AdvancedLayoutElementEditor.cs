@@ -103,6 +103,9 @@ namespace AP.Editor.UI
             var weightProp = property.FindPropertyRelative("m_Weight");
             var overrideProp = property.FindPropertyRelative("m_Override");
 
+            string correctionFieldName = AdvancedLayoutElement.Property.CorrectionFieldName;
+            var correctionProperty = property.FindPropertyRelative(correctionFieldName);
+
             var currentType = (LayoutProperty)typeProp.enumValueIndex;
 
             Rect marchingRect = position;
@@ -166,6 +169,7 @@ namespace AP.Editor.UI
                 DoOverrideProperty(overrideProp, ref marchingRect);
                 DoProperty(valueProp, ref marchingRect);
                 DoProperty(readOnlyProp, ref marchingRect);
+                DoProperty(correctionProperty, ref marchingRect);
             }
             EditorGUI.EndProperty();
         }
